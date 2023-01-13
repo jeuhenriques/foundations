@@ -1,6 +1,6 @@
 """Module clean data"""
 import pandas as pd
-
+import argparse
 
 def clean_data(region="PT",
                path="C:\\repos\\faast-foundations\\assignments\\life_expectancy\\data\\",
@@ -37,3 +37,9 @@ def clean_data(region="PT",
     data = data[data["region"] == region]
     # save data
     data.to_csv(path + file_output_name, index=False)
+
+if __name__=='__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('region')
+    args = parser.parse_args()
+    clean_data(region=args.region)
