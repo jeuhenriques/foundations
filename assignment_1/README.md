@@ -1,5 +1,4 @@
-# Assignment 1: EU Life Expectancy
-
+# Assignment 1: EU Life Expectancy. 
 > **Warning**
 > Before starting this assignment, make sure you have read the [project's setup instructions](../README.md) carefully.
 
