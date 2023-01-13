@@ -1,0 +1,62 @@
+name: deploy to DEV environment
+
+on:
+  push:
+    branches: [development]
+
+jobs:
+  linting:
+    runs-on: ["self-hosted", "prod", "org-wide-runner"]
+    container:
+      image: python:3.7
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup JDK 8
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+
+      - name: setup environment
+        shell: bash
+        run: |
+          /usr/local/bin/python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: lint
+        shell: bash
+        run: flake8 sourcecode
+  unit-testing:
+    runs-on: ["self-hosted", "prod", "org-wide-runner"]
+    needs: linting
+    container:
+      image: python:3.7
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup JDK 8
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+
+      - name: setup environment
+        shell: bash
+        run: |
+          /usr/local/bin/python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: run unit tests
+        shell: bash
+        run: pytest -s tests --ignore tests/cli/test_cli.py 
+
+  deploy-development:
+    uses: nosportugal/de-reusable-workflows/.github/workflows/deploy-ingestion-dags.yml@v0.6
+    needs: unit-testing
+    with:
+      environment: dev
+      edge_node_hostname: rhspbita030.hadoop01.corporativo.pt
+      edge_node_user: svcdev_cicddataops
+      deploy_basepath: /edgenfs/airflow_dev/dags
+      dags_dir: orchestration-tools/airflow/dags
+    secrets:
+      edge_node_private_key: ${{ secrets.ssh_private_key }}
