@@ -22,7 +22,9 @@ jobs:
         shell: bash
         run: |
           /usr/local/bin/python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python -m pip install -e .
+          python -m pip install pylint pytest
+          
       - name: lint
         shell: bash
         run: flake8 sourcecode
@@ -43,7 +45,8 @@ jobs:
         shell: bash
         run: |
           /usr/local/bin/python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python -m pip install -e .
+          pylint life_expectancy.cleaning
       - name: run unit tests
         shell: bash
         run: pytest -s tests --ignore tests/cli/test_cli.py 
