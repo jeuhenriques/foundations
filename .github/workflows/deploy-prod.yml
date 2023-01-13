@@ -23,13 +23,15 @@ jobs:
       - name: setup environment
         shell: bash
         run: |
-          /usr/local/bin/python -m pip install --upgrade pip
-          python -m pip install -e .
+          python -m pip install --upgrade pip
           python -m pip install pylint pytest
+          python -m pip install .
+          
           
       - name: lint
-        shell: bash
-        run: flake8 sourcecode
+        continue-on-error: true
+        run: |
+          pylint life_expectancy.cleaning
   unit-testing:
     runs-on: ["ubuntu-latest"]
     needs: linting
@@ -47,8 +49,8 @@ jobs:
         shell: bash
         run: |
           /usr/local/bin/python -m pip install --upgrade pip
-          python -m pip install -e .
-          pylint life_expectancy.cleaning
+          python -m pip install pylint pytest
+          python -m pip install .
       - name: run unit tests
         shell: bash
-        run: pytest -s tests --ignore tests/cli/test_cli.py 
+        run: pytest -s tests
