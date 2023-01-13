@@ -3,6 +3,8 @@ name: deploy to Main environment
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   linting:
