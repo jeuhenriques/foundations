@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
- linting:
+  linting:
     runs-on: ["self-hosted", "prod", "org-wide-runner"]
     container:
       image: python:3.7
@@ -33,7 +33,6 @@ jobs:
       image: python:3.7
     steps:
       - uses: actions/checkout@v3
-
       - name: Setup JDK 8
         uses: actions/setup-java@v3
         with:
