@@ -46,4 +46,4 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pylint pytest
       - name: run unit tests
-        run: pytest -s tests
+        run: pytest
