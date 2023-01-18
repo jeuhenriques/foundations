@@ -2,7 +2,6 @@
 import argparse
 import pathlib
 import pandas as pd
-from typing import Any
 
 def load_data(file_input_name: str, path: str ) -> pd.DataFrame:
     """load_data from file_input_name and path
@@ -54,7 +53,7 @@ def clean_data(data: pd.DataFrame, region: str = 'PT' ) -> pd.DataFrame:
 
     return data_cleaned
 
-def save_data(data: pd.DataFrame, file_output_name: str, path: Any) ->  None:
+def save_data(data: pd.DataFrame, file_output_name: str, path: str) ->  None:
     """AI is creating summary for save_data
 
     Args:
@@ -66,6 +65,7 @@ def save_data(data: pd.DataFrame, file_output_name: str, path: Any) ->  None:
         [type]: [description]
     """
     # save data
+    path = pathlib.Path(__file__).parent / path
     data.to_csv(path / file_output_name, index=False)
 
 if __name__=='__main__': # pragma: no cover
