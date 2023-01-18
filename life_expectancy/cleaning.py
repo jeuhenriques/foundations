@@ -15,7 +15,7 @@ def load_data(file_input_name: str, path: str ) -> pd.DataFrame:
     """
     path = pathlib.Path(__file__).parent / path
     # read data
-    data = pd.read_csv(path/file_input_name, sep='\t')
+    data = pd.read_csv(path / file_input_name, sep='\t')
 
     return data
 
@@ -65,7 +65,7 @@ def save_data(data: pd.DataFrame, file_output_name: str, path: str) ->  None:
         [type]: [description]
     """
     # save data
-    data.to_csv(path/file_output_name, index=False)
+    data.to_csv(path / file_output_name, index=False)
 
 if __name__=='__main__': # pragma: no cover
 
