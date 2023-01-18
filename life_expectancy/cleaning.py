@@ -2,6 +2,7 @@
 import argparse
 import pathlib
 import pandas as pd
+from typing import Any
 
 def load_data(file_input_name: str, path: str ) -> pd.DataFrame:
     """load_data from file_input_name and path
@@ -15,7 +16,7 @@ def load_data(file_input_name: str, path: str ) -> pd.DataFrame:
     """
     path = pathlib.Path(__file__).parent / path
     # read data
-    data = pd.read_csv(path + file_input_name, sep='\t')
+    data = pd.read_csv(path / file_input_name, sep='\t')
 
     return data
 
@@ -53,7 +54,7 @@ def clean_data(data: pd.DataFrame, region: str = 'PT' ) -> pd.DataFrame:
 
     return data_cleaned
 
-def save_data(data: pd.DataFrame, file_output_name: str, path: str) ->  None:
+def save_data(data: pd.DataFrame, file_output_name: str, path: Any) ->  None:
     """AI is creating summary for save_data
 
     Args:
