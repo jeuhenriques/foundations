@@ -15,7 +15,7 @@ def load_data(file_input_name: str, path: str ) -> pd.DataFrame:
     """
     path = pathlib.Path(__file__).parent / path
     # read data
-    data = pd.read_csv(path / file_input_name, sep='\t')
+    data = pd.read_csv(path + file_input_name, sep='\t')
 
     return data
 
