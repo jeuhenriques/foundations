@@ -1,17 +1,35 @@
 """Module clean data"""
-import pandas as pd
 import argparse
 import pathlib
+import pandas as pd
 
-def clean_data(region="PT") -> None:
+def load_data(file_input_name: str, path: str ) -> pd.DataFrame:
+    """load_data from file_input_name and path
+
+    Args:
+        file_input_name (str): name naming
+        path (str): path
+
+    Returns:
+        pd.DataFrame: dataframe return
     """
-    :param region:
-    """
-    path = pathlib.Path(__file__).parent / 'data'
-    file_input_name="eu_life_expectancy_raw.tsv"
-    file_output_name="pt_life_expectancy.csv"
+    path = pathlib.Path(__file__).parent / path
     # read data
-    data = pd.read_csv(path/file_input_name, sep='\t')
+    data = pd.read_csv(path / file_input_name, sep='\t')
+
+    return data
+
+
+def clean_data(data: pd.DataFrame, region: str = 'PT' ) -> pd.DataFrame:
+    """AI is creating summary for clean_data
+
+    Args:
+        data (pd.DataFrame): [description]
+        region (str, optional): [description]. Defaults to 'PT'.
+
+    Returns:
+        pd.DataFrame: [description]
+    """
     # slice data frame column to split
     split_column = data.columns[0]
     # slip column by comma
@@ -31,14 +49,43 @@ def clean_data(region="PT") -> None:
     # Rename column to region
     data = data.rename(columns={data.columns[3]: "region"})
     # Filter region column by region parameter
-    data = data[data["region"] == region]
+    data_cleaned = data[data["region"] == region]
+
+    return data_cleaned
+
+def save_data(data: pd.DataFrame, file_output_name: str, path: str) ->  None:
+    """AI is creating summary for save_data
+
+    Args:
+        data (pd.DataFrame): [description]
+        path (str): [description]
+        file_output_name (str): [description]
+
+    Returns:
+        [type]: [description]
+    """
     # save data
-    data.to_csv(path/file_output_name, index=False)
+    path = pathlib.Path(__file__).parent / path
+    data.to_csv(path / file_output_name, index=False)
 
-    return None
+if __name__=='__main__': # pragma: no cover
 
-if __name__=='__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('region')
     args = parser.parse_args()
-    clean_data(region=args.region)
+
+    eu_life_expectancy_raw = load_data(
+        file_input_name='eu_life_expectancy_raw.tsv',
+        path="data"
+    )
+
+    pt_life_expectancy = clean_data(
+        data=eu_life_expectancy_raw,
+        region=args.region
+    )
+
+    save_data(
+        data=pt_life_expectancy,
+        file_output_name='pt_life_expectancy.csv',
+        path="data"
+    )
